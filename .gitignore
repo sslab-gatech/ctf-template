@@ -1,0 +1,4 @@
+/release/target
+/doker/target
+
+*.o
