@@ -16,8 +16,8 @@ history!
     $ make help
     prepare: prepare a docker image for compilation
     build  : build the target
-    dist   : build the target and docker image
-    release: build the docker image and release the binary
+    dist   : build the docker image
+    release: build the target, docker image and release them
     run    : run the docker container
     exploit: launch the exploit
     test   : test the docker/exploit
@@ -37,6 +37,11 @@ You can replicate real security vulnerabilities, like `mini-sudo` or
 ## Structure
 
 ~~~~{.sh}
+    /NAME                : team-name:challenge-name (e.g., `staff:fmstr`)
+    /PORT                : a port number
+    /test-all.sh         : a test script to validate the challenge
+    /test-patch.sh       : a test scirpt to validate the patch
+
     # all files to run your service
     /docker/Dockerfile   : Dockerfile
            /target       : target binary
@@ -53,7 +58,6 @@ You can replicate real security vulnerabilities, like `mini-sudo` or
            /patch.diff   : a patch to fix the bug
            /Dockerfile   : Dockerfile for the build environment
            /src/         : source code
-
 ~~~~
 
 ## Workflow
@@ -68,12 +72,17 @@ You can replicate real security vulnerabilities, like `mini-sudo` or
    - See `source/src/Makefile` to enable/disable mitigation
    - Put `README.md` under `release/README.md`
    - Put `patch.diff` under `source/patch.diff`
-5. Put an exploit to `source/exploit.py` (exploit test)
+   - `make build` to build the challenge
+5. `make dist` to prepare a docker image for exploitation
+6. Put an exploit to `source/exploit.py` (exploit test)
    (e.g., `make run` and `make exploit`)
-6. Put a test code to `source/test.py` (functionality test)
+7. Put a test code to `source/test.py` (functionality test)
    (e.g., `make run` and `make test`)
-7. Make sure everything is ready `./test-all.sh`
-   (e.g., `make release`)
+8. Make sure everything is ready `./test-all.sh`
+   - Check what's included in `/release/` (`make release`)
+   - Check if your exploit and test work
+   - Check if your exploit fails yet test works after `patch.diff` is applied
+     (i.e, `./test-patch.sh`)
 
 The source code of the challenge locates in `source/src/`, which
 contains its source (`fmtstr.c`) and makefile (`Makefile`).
@@ -92,3 +101,9 @@ as you'd like for your challenge.
 7) `/source/test.py`: Your functionality testing code
 8) `/source/patch.diff`: A patch to fix the bug
 9) Make sure `test-all.sh` works!
+10) Make sure `test-patch.sh` works!
+
+## The game day
+- The organizer will run `make dist` to prepare the docker image
+- The organizer will release `/release/*` via CTFd
+- Your docker image will be monitored with your test and exploit scripts

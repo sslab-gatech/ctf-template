@@ -6,8 +6,8 @@ DOCKER_BUILD := docker run -v ./source/src:/src --rm -i -t $(NAME)-build bash -c
 help:
 	@echo "prepare: prepare a docker image for compilation"
 	@echo "build  : build the target"
-	@echo "dist   : build the target and docker image"
-	@echo "release: build the docker image and release the binary"
+	@echo "dist   : build the docker image"
+	@echo "release: build the target, docker image and release them"
 	@echo "run    : run the docker container"
 	@echo "exploit: launch the exploit"
 	@echo "test   : test the docker/exploit"
@@ -23,10 +23,10 @@ clean:
 	$(DOCKER_BUILD) 'cd src; make clean'
 
 dist:
-	make build
 	(cd docker; docker build -t $(NAME) .)
 
 release:
+	make build
 	make dist
 	cp -f docker/target release/target
 
