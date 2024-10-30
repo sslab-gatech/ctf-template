@@ -43,7 +43,7 @@ You can replicate real security vulnerabilities, like `mini-sudo` or
            /flag         : follow this format: tkctf{please submit this flag!}
 
     # all files to be released to participants
-    /release/README      : guideline
+    /release/README.md   : guideline
             /target      : target binary, if you want to release
 
     # source/exploit for your team and organizer
@@ -66,7 +66,7 @@ You can replicate real security vulnerabilities, like `mini-sudo` or
 4. Design your challenge under `source/src/` and `make dist`
    - All code and Makefile go to `source/src/`
    - See `source/src/Makefile` to enable/disable mitigation
-   - Put `README` under `release/README`
+   - Put `README.md` under `release/README.md`
    - Put `patch.diff` under `source/patch.diff`
 5. Put an exploit to `source/exploit.py` (exploit test)
    (e.g., `make run` and `make exploit`)
@@ -84,7 +84,7 @@ as you'd like for your challenge.
 ## Checklist for submission
 
 1) `/NAME`: Team/challenge name
-2) `/release/README`: Description about the challenge
+2) `/release/README.md`: Description about the challenge
 3) `/release/target`: the target binary to release
 4) `/docker/flag`: Flag!
 5) `/source/writeup.txt`: Your description on the challenge and solution
