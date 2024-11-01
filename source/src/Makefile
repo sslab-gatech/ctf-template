@@ -1,4 +1,7 @@
-CFLAGS = -std=gnu99 -O0 -g
+CC ?= gcc
+CFLAGS ?= -std=gnu99 -O0 -g
+LDFLAGS ?=
+LIBS ?=
 
 # 32b or 64b
 CFLAGS += -m32
@@ -24,13 +27,15 @@ CFLAGS += -no-pie
 
 ALL := target
 
+.PHONY: all
 all: $(ALL)
 
 target: fmtstr.c
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) $(LIBS)
 	checksec --file $@
 
+.PHONY: clean
 clean:
-	rm -f $(ALL)
+	$(RM) -f $(ALL)
 
-.PHONY: all clean
+
