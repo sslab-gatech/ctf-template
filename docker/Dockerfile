@@ -1,4 +1,4 @@
-from ubuntu:22.04
+FROM ubuntu:22.04
 
 RUN adduser --disabled-password --gecos '' ctf
 
@@ -16,6 +16,9 @@ COPY target /target
 
 # make the flag readonly
 RUN chmod a-w flag
+
+# use ctf user instead of root
+USER ctf
 
 # run socat
 CMD ["socat", "-T60", "TCP-LISTEN:9999,reuseaddr,fork", "EXEC:timeout 60 /target"]
