@@ -15,7 +15,9 @@ COPY flag /flag
 COPY target /target
 
 # make the flag readonly
-RUN chmod a-w flag
+RUN chmod 444 /flag
+
+RUN chmod 755 /target
 
 # use ctf user instead of root
 USER ctf
