@@ -6,10 +6,13 @@ RUN adduser --disabled-password --gecos '' ctf
 RUN dpkg --add-architecture i386
 RUN apt update
 RUN apt install -y libc6:i386 libstdc++6:i386
-RUN apt install -y python3
+RUN apt install -y python3 python3-pip
 
 # install packages
 RUN apt install -y socat
+
+# put other python libs you need here, for example:
+RUN pip install z3
 
 # copy service/flag files
 COPY target.py /target.py
