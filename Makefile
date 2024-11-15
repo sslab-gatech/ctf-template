@@ -1,7 +1,6 @@
 NAME := $(shell cat NAME)
 PORT := $(shell cat PORT)
 
-DOCKER_BUILD := docker run -v ./source/src:/src --rm -i -t $(NAME)-build bash -c
 
 help:
 	@echo "prepare: prepare a docker image for compilation"
@@ -12,15 +11,8 @@ help:
 	@echo "exploit: launch the exploit"
 	@echo "test   : test the docker/exploit"
 
-prepare:
-	(cd source; docker build -t $(NAME)-build .)
-
 build:
-	$(DOCKER_BUILD) 'cd src; make'
-	cp -f source/src/target docker/
-
-clean:
-	$(DOCKER_BUILD) 'cd src; make clean'
+	cp -f source/src/target.py docker/
 
 dist:
 	(cd docker; docker build -t $(NAME) .)
@@ -28,7 +20,7 @@ dist:
 release:
 	make build
 	make dist
-	cp -f docker/target release/target
+	cp -f docker/target.py release/target.py
 
 run:
 	docker run -p $(PORT):9999 --rm -i -t $(NAME)
