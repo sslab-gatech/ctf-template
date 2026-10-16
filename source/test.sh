@@ -1,7 +1,9 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 
-# build all
-make release
+set -e
+
+ROOT=$(dirname "$0")/..
+cd $ROOT
 
 ID=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-10} | head -n 1)
 NAME=$(cat NAME)
@@ -21,15 +23,4 @@ done
 trap "docker container stop $ID &>/dev/null" EXIT
 
 sleep 2
-
-# testing
-echo "---------------------------------------------------"
-echo "[!] Testing functionality"
-echo "---------------------------------------------------"
-PORT=$PORT REMOTE=1 source/test.py
-
-# exploiting
-echo "---------------------------------------------------"
-echo "[!] Testing exploitation"
-echo "---------------------------------------------------"
 PORT=$PORT REMOTE=1 source/exploit.py

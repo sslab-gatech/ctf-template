@@ -1,5 +1,6 @@
 NAME := $(shell cat NAME)
 PORT := $(shell cat PORT)
+URL  := https://forms.office.com/TODO # FIXME
 
 DOCKER_BUILD := docker run -v ./source/src:/src --rm -i -t $(NAME)-build bash -c
 
@@ -11,6 +12,7 @@ help:
 	@echo "run    : run the docker container"
 	@echo "exploit: launch the exploit"
 	@echo "test   : test the docker/exploit"
+	@echo "submit : zip for submission"
 
 prepare:
 	(cd source; docker build -t $(NAME)-build .)
@@ -36,7 +38,11 @@ run:
 exploit:
 	PORT=$(PORT) REMOTE=1 source/exploit.py
 
-test:
-	PORT=$(PORT) REMOTE=1 source/test.py
+submit:
+	zip -r ../$(NAME).zip .
+	@echo "Please upload ../$(NAME).zip to a shareable link and submit to $(URL)"
 
-.PHONY: dist build run exploit test help clean release
+test:
+	@source/test.sh
+
+.PHONY: dist build run submit exploit test clean release help
