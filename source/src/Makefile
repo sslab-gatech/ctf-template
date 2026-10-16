@@ -19,11 +19,14 @@ CFLAGS += -fstack-protector
 # disable SSP
 # CFLAGS += -fno-stack-protector
 
-# enable ASLR
+# enable PIE
 # CFLAGS += -pie -fPIE
 
-# disable ASLR
+# disable PIE
 CFLAGS += -no-pie
+
+# disable CET
+CFLAGS += -fcf-protection=none
 
 ALL := target
 
@@ -32,10 +35,8 @@ all: $(ALL)
 
 target: fmtstr.c
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) $(LIBS)
-	checksec --file $@
+	pwn checksec $@
 
 .PHONY: clean
 clean:
 	$(RM) -f $(ALL)
-
-

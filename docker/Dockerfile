@@ -1,6 +1,6 @@
-FROM ubuntu:22.04
+FROM ubuntu:26.04
 
-RUN adduser --disabled-password --gecos '' ctf
+RUN useradd -m -s /bin/bash ctf
 
 # enable 32-bit support
 RUN dpkg --add-architecture i386
